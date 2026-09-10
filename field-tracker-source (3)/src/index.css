@@ -1,0 +1,307 @@
+@import "tailwindcss";
+@import "@fontsource/inter/300.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
+/* Class-based dark mode toggled via JS, not OS media query */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --surface: #fcf9f8;
+  --surface-dim: #dcd9d9;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f6f3f2;
+  --surface-container: #f0edec;
+  --surface-container-high: #ebe7e7;
+  --surface-container-highest: #e5e2e1;
+  --on-surface: #1c1b1b;
+  --on-surface-variant: #424752;
+  --outline: #727783;
+  --outline-variant: #c2c6d4;
+
+  --primary: #00478d;
+  --primary-container: #005eb8;
+  --on-primary: #ffffff;
+  --on-primary-container: #c8daff;
+  --primary-fixed-dim: #a9c7ff;
+
+  --secondary: #006e06;
+  --secondary-container: #91f77e;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #007306;
+  --secondary-fixed-dim: #79dd68;
+
+  --tertiary: #424755;
+  --tertiary-container: #595f6e;
+  --on-tertiary: #ffffff;
+  --on-tertiary-container: #d4d9eb;
+  --tertiary-fixed-dim: #c1c6d7;
+
+  --error: #ba1a1a;
+  --error-container: #ffdad6;
+  --on-error: #ffffff;
+  --on-error-container: #93000a;
+
+  /* custom spacing scale — kept OUT of Tailwind's --spacing-* namespace
+     on purpose (see build spec §6.2) so it never clobbers built-in
+     sizing utilities like max-w-xl / w-lg / etc. */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+}
+
+.dark {
+  /* Material 3 tonal dark-mode derivation: dark primary = light
+     primary-fixed-dim, dark primary-container = light primary, etc.
+     Surfaces move to near-black neutrals rather than a naive invert. */
+  --surface: #131313;
+  --surface-dim: #131313;
+  --surface-container-lowest: #0d0e0e;
+  --surface-container-low: #1c1b1b;
+  --surface-container: #201f1f;
+  --surface-container-high: #2a2a2a;
+  --surface-container-highest: #353434;
+  --on-surface: #e5e2e1;
+  --on-surface-variant: #c2c6d4;
+  --outline: #8c8f9a;
+  --outline-variant: #424752;
+
+  --primary: #a9c7ff;
+  --primary-container: #00478d;
+  --on-primary: #00305f;
+  --on-primary-container: #c8daff;
+  --primary-fixed-dim: #a9c7ff;
+
+  --secondary: #79dd68;
+  --secondary-container: #006e06;
+  --on-secondary: #00390a;
+  --on-secondary-container: #91f77e;
+  --secondary-fixed-dim: #79dd68;
+
+  --tertiary: #c1c6d7;
+  --tertiary-container: #424755;
+  --on-tertiary: #2c313e;
+  --on-tertiary-container: #d4d9eb;
+  --tertiary-fixed-dim: #c1c6d7;
+
+  --error: #ffb4ab;
+  --error-container: #93000a;
+  --on-error: #690005;
+  --on-error-container: #ffdad6;
+}
+
+@theme {
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary: var(--on-secondary);
+  --color-on-secondary-container: var(--on-secondary-container);
+  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
+
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-on-tertiary-container: var(--on-tertiary-container);
+  --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
+
+  --color-error: var(--error);
+  --color-error-container: var(--error-container);
+  --color-on-error: var(--on-error);
+  --color-on-error-container: var(--on-error-container);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Named type scale registered as real theme entries so
+     font-{name} / text-{name} utilities work. */
+  --font-display-lg: "Inter", sans-serif;
+  --text-display-lg: 32px;
+  --text-display-lg--line-height: 1.2;
+  --text-display-lg--font-weight: 700;
+
+  --font-headline-md: "Inter", sans-serif;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--font-weight: 600;
+
+  --font-headline-md-mobile: "Inter", sans-serif;
+  --text-headline-md-mobile: 20px;
+  --text-headline-md-mobile--line-height: 1.3;
+  --text-headline-md-mobile--font-weight: 600;
+
+  --font-title-lg: "Inter", sans-serif;
+  --text-title-lg: 18px;
+  --text-title-lg--line-height: 1.4;
+  --text-title-lg--font-weight: 600;
+
+  --font-body-lg: "Inter", sans-serif;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 1.5;
+  --text-body-lg--font-weight: 400;
+
+  --font-body-sm: "Inter", sans-serif;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--font-weight: 400;
+
+  --font-label-caps: "Inter", sans-serif;
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 1.3;
+  --text-label-caps--font-weight: 600;
+}
+
+@utility label-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Custom spacing utilities, statically declared, reading from the
+   --space-* namespace (NOT --spacing-*) so built-in sizing utilities
+   that share a suffix (e.g. max-w-xl) are never silently clobbered. */
+@utility p-xs { padding: var(--space-xs); }
+@utility p-sm { padding: var(--space-sm); }
+@utility p-md { padding: var(--space-md); }
+@utility p-lg { padding: var(--space-lg); }
+@utility p-xl { padding: var(--space-xl); }
+@utility p-2xl { padding: var(--space-2xl); }
+
+@utility px-xs { padding-left: var(--space-xs); padding-right: var(--space-xs); }
+@utility px-sm { padding-left: var(--space-sm); padding-right: var(--space-sm); }
+@utility px-md { padding-left: var(--space-md); padding-right: var(--space-md); }
+@utility px-lg { padding-left: var(--space-lg); padding-right: var(--space-lg); }
+@utility px-xl { padding-left: var(--space-xl); padding-right: var(--space-xl); }
+
+@utility py-xs { padding-top: var(--space-xs); padding-bottom: var(--space-xs); }
+@utility py-sm { padding-top: var(--space-sm); padding-bottom: var(--space-sm); }
+@utility py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+@utility py-lg { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
+@utility py-xl { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
+
+@utility gap-xs { gap: var(--space-xs); }
+@utility gap-sm { gap: var(--space-sm); }
+@utility gap-md { gap: var(--space-md); }
+@utility gap-lg { gap: var(--space-lg); }
+@utility gap-xl { gap: var(--space-xl); }
+@utility gap-2xl { gap: var(--space-2xl); }
+
+@utility mb-xs { margin-bottom: var(--space-xs); }
+@utility mb-sm { margin-bottom: var(--space-sm); }
+@utility mb-md { margin-bottom: var(--space-md); }
+@utility mb-lg { margin-bottom: var(--space-lg); }
+@utility mb-xl { margin-bottom: var(--space-xl); }
+
+@utility mt-xs { margin-top: var(--space-xs); }
+@utility mt-sm { margin-top: var(--space-sm); }
+@utility mt-md { margin-top: var(--space-md); }
+@utility mt-lg { margin-top: var(--space-lg); }
+@utility mt-xl { margin-top: var(--space-xl); }
+
+/* Single-side padding, read from --space-* (not --spacing-*), same
+   reasoning as above — used for the floating-label form inputs. */
+@utility pt-xs { padding-top: var(--space-xs); }
+@utility pt-sm { padding-top: var(--space-sm); }
+@utility pt-md { padding-top: var(--space-md); }
+@utility pt-lg { padding-top: var(--space-lg); }
+@utility pt-xl { padding-top: var(--space-xl); }
+
+@utility pb-xs { padding-bottom: var(--space-xs); }
+@utility pb-sm { padding-bottom: var(--space-sm); }
+@utility pb-md { padding-bottom: var(--space-md); }
+@utility pb-lg { padding-bottom: var(--space-lg); }
+@utility pb-xl { padding-bottom: var(--space-xl); }
+@utility pb-2xl { padding-bottom: var(--space-2xl); }
+
+@utility pr-xs { padding-right: var(--space-xs); }
+@utility pr-sm { padding-right: var(--space-sm); }
+@utility pr-md { padding-right: var(--space-md); }
+@utility pr-lg { padding-right: var(--space-lg); }
+@utility pr-xl { padding-right: var(--space-xl); }
+@utility pr-2xl { padding-right: var(--space-2xl); }
+
+@utility pl-xs { padding-left: var(--space-xs); }
+@utility pl-sm { padding-left: var(--space-sm); }
+@utility pl-md { padding-left: var(--space-md); }
+@utility pl-lg { padding-left: var(--space-lg); }
+@utility pl-xl { padding-left: var(--space-xl); }
+
+/* Positioning offsets, same namespace — used to place floating
+   labels and badge dots precisely without touching --spacing-*. */
+@utility top-xs { top: var(--space-xs); }
+@utility top-sm { top: var(--space-sm); }
+@utility top-md { top: var(--space-md); }
+@utility top-lg { top: var(--space-lg); }
+
+@utility bottom-xs { bottom: var(--space-xs); }
+@utility bottom-sm { bottom: var(--space-sm); }
+@utility bottom-md { bottom: var(--space-md); }
+@utility bottom-lg { bottom: var(--space-lg); }
+
+@utility left-xs { left: var(--space-xs); }
+@utility left-sm { left: var(--space-sm); }
+@utility left-md { left: var(--space-md); }
+@utility left-lg { left: var(--space-lg); }
+
+@utility right-xs { right: var(--space-xs); }
+@utility right-sm { right: var(--space-sm); }
+@utility right-md { right: var(--space-md); }
+@utility right-lg { right: var(--space-lg); }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  border-color: var(--color-outline-variant);
+}
+
+/* Never italic — flat, professional typography throughout. */
+em, i, blockquote, cite {
+  font-style: normal;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-outline-variant);
+  border-radius: 999px;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
