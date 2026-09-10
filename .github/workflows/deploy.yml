@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+# Runs automatically every time you push to main (i.e. every time you
+# upload/update files in the repo), and can also be triggered manually
+# from the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; a new push cancels an in-progress one
+# rather than queuing behind it.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate icon data
+        run: node scripts/gen-icons.mjs
+
+      - name: Type-check and build
+        run: npm run build
+        env:
+          # These come from your repo's Settings → Secrets and variables
+          # → Actions, not from a .env file (there is no .env file in
+          # the repo — see .gitignore). The build inlines them into the
+          # compiled JS, same as any Vite app.
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Upload build output
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
